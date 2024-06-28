@@ -1,7 +1,11 @@
 import {MoonStar, Sun} from "lucide-react";
 import {Button, OverlayTrigger, Tooltip} from "react-bootstrap";
 
-export default ({theme, setTheme}) => {
+interface Props {
+    theme: string
+    setTheme: (theme: string) => void
+}
+export default function ThemeSwitch({theme, setTheme}: Props) {
 
     const tooltip = (
         <Tooltip id="tooltip">

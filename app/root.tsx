@@ -38,7 +38,7 @@ export function Layout({children}: { children: React.ReactNode }) {
         <Container fluid className="h-100">
             <Row>
                 <Sidebar/>
-                {children}
+                <Col>{children}</Col>
             </Row>
         </Container>
         <ScrollRestoration/>
