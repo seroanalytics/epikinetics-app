@@ -17,11 +17,15 @@ interface Props {
     titre_type: string
 }
 
-const colors = {
+const colors = [{
     "ancestral": "#CC6677",
     "alpha": "#DDCC77",
     "delta": "#88CCEE"
-}
+}, {
+    "ancestral": "#882255",
+    "alpha": "#44AA99",
+    "delta": "#e2e2e2"
+}]
 // "#882255",
 // "#44AA99",
 // "#e2e2e2",
@@ -39,6 +43,17 @@ export const useIsServerSide = () => {
     return isServerSide;
 };
 
+function legend(state: State, titre_type: string, history: string) {
+    let legendName = "median";
+    if (state.titre_type == "Trace") {
+        legendName += " " + titre_type.toLowerCase()
+    }
+    if (state.history == "Trace") {
+        legendName += " " + history.toLowerCase()
+    }
+    return legendName
+}
+
 export default function LineChart({data, history, titre_type}: Props) {
     const {state} = useContext<ContextValue>(RootContext);
     const allData = data.filter(entry =>
@@ -47,8 +62,6 @@ export default function LineChart({data, history, titre_type}: Props) {
         ...entry,
         range: [entry.hi, entry.lo]
     }));
-
-    const xLim = Math.max.apply(null, allData.map(d => d.t))
 
     const titre_types = [...new Set(allData.map(entry => entry.titre_type))]
     const histories = [...new Set(allData.map(entry => entry.infection_history))]
@@ -87,12 +100,13 @@ export default function LineChart({data, history, titre_type}: Props) {
                         type="monotone"
                         dataKey="range"
                         stroke="none"
-                        fill={colors[idx[0].toLowerCase()]}
+                        fill={colors[histories.indexOf(idx[1])][idx[0].toLowerCase()]}
                         fillOpacity={0.3}
                         connectNulls
                         dot={false}
                         activeDot={false}
                         data={data}
+                        legendType={"none"}
                     />,
                     <Line key={idx.join("line")}
                           xAxisId={idx.join("x")}
@@ -100,7 +114,8 @@ export default function LineChart({data, history, titre_type}: Props) {
                           dot={false}
                           dataKey="me"
                           data={data}
-                          stroke={colors[idx[0].toLowerCase()]}
+                          name={legend(state, idx[0], idx[1])}
+                          stroke={colors[histories.indexOf(idx[1])][idx[0].toLowerCase()]}
                           connectNulls/>])
             }
             <Tooltip></Tooltip>

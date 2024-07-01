@@ -34,7 +34,7 @@ export default function Index() {
     if (state.history == "Facet") {
         return <Row> {histories.map((h, hidx) => {
             if (state.titre_type == "Facet") {
-                return titre_types.map((t, tidx) => <Col xs="6" key={"k" + hidx + "" + tidx}>
+                return titre_types.map((t, tidx) => <Col xs="4" key={"k" + hidx + "" + tidx}>
                         <LineChart data={data} titre_type={t} history={h}></LineChart>
                     </Col>
                 )
