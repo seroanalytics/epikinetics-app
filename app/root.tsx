@@ -10,10 +10,11 @@ import {
 import globalStyles from "./styles/global.css?url";
 import bootstrap from "bootstrap/dist/css/bootstrap.css?url";
 import {Col, Container, Row} from "react-bootstrap";
-import React from "react";
+import React, {createContext, useMemo, useReducer} from "react";
 import usePersistedState from "./hooks/usePersistedState";
 import Sidebar from "./components/Sidebar";
 import TopNav from "./components/TopNav";
+import {initialState, rootReducer, RootContext} from "./RootContext";
 
 export const links: LinksFunction = () => [
     {rel: "stylesheet", href: bootstrap},
@@ -24,6 +25,14 @@ export const meta: MetaFunction = () => [{title: "Epikinetics"}];
 
 export function Layout({children}: { children: React.ReactNode }) {
     const [theme, setTheme] = usePersistedState("theme", "dark");
+
+    const [state, dispatch] = useReducer(
+        rootReducer,
+        initialState,
+        () => initialState
+    );
+
+    const contextValue = useMemo(() => ({state, dispatch}), [state, dispatch])
 
     return (
         <html lang="en" data-bs-theme={theme} className="h-100">
@@ -36,10 +45,12 @@ export function Layout({children}: { children: React.ReactNode }) {
         <body className="h-100">
         <TopNav theme={theme} setTheme={setTheme}></TopNav>
         <Container fluid className="h-100">
+            <RootContext.Provider value={contextValue}>
             <Row>
                 <Sidebar/>
-                <Col>{children}</Col>
+                <Col className={"pt-2"}>{children}</Col>
             </Row>
+            </RootContext.Provider>
         </Container>
         <ScrollRestoration/>
         <Scripts/>
