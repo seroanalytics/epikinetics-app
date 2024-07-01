@@ -8,11 +8,20 @@ import {
     YAxis,
     Tooltip, ResponsiveContainer
 } from "recharts";
-import React, {useContext, useEffect, useReducer, useState} from "react";
-import {ContextValue, RootContext, rootReducer, State} from "../RootContext";
+import React, {useContext, useEffect, useState} from "react";
+import {ContextValue, RootContext, State} from "../RootContext";
+
+interface Dat {
+    t: number
+    me: number
+    lo: number
+    hi: number
+    titre_type: string
+    infection_history: string
+}
 
 interface Props {
-    data: any[],
+    data: Dat[],
     history: string
     titre_type: string
 }

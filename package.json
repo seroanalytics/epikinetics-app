@@ -15,8 +15,8 @@
     "type": "git",
     "url": "git+https://github.com/seroanalytics/epikinetics-app.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Alex Hill <alex.hill@gmail.com> (https://github.com/hillalex)",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/seroanalytics/epikinetics-app/issues"
   },

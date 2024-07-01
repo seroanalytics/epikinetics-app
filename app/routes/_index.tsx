@@ -6,8 +6,8 @@ import {fs} from "../utils/fs-promises.server";
 import {dirname} from 'path';
 import {fileURLToPath} from 'url';
 import LineChart from "../components/LineChart";
-import {ContextValue, initialState, RootContext, rootReducer} from "../RootContext";
-import {useContext, useReducer} from "react";
+import {ContextValue, RootContext} from "../RootContext";
+import {useContext} from "react";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

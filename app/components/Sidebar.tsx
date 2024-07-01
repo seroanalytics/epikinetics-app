@@ -1,7 +1,7 @@
 import Form from 'react-bootstrap/Form';
 import {Col, Row} from "react-bootstrap";
 import React, {useContext} from "react";
-import {ContextValue, RootContext, State} from "../RootContext";
+import {ContextValue, RootContext} from "../RootContext";
 
 export default function Sidebar() {
 
