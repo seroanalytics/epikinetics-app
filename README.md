@@ -13,3 +13,5 @@ Based on the `remix` Javascript/Typescript framework.
 * Run `npm install` from this directory to install dependencies
 * Start the dev server with `npm run dev`. You should now see the app served at http://localhost:3000.
 
+## Electron app
+To start as an Electron app instead, run `npm run electron`.

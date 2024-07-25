@@ -39,13 +39,13 @@ export default function Sidebar() {
 
                 <hr/>
                 <Form.Label htmlFor="data">Population fits</Form.Label>
-                <Form.Group className="mb-3" controlId="formPlaintextPassword">
+                <Form.Group className="mb-3">
                     <Form.Text id="help" muted>
                         Choose how each variable is displayed
                     </Form.Text>
                     <Row className={"mt-2"}>
                         <Form.Label column sm="6">
-                           Titre type
+                            Titre type
                         </Form.Label>
                         <Col sm="6">
                             <Form.Select value={state.titre_type} id="titre_type" onChange={onSelect}>
@@ -65,6 +65,10 @@ export default function Sidebar() {
                             </Form.Select>
                         </Col>
                     </Row>
+                </Form.Group>
+                <hr/>
+                <Form.Group className={"mb-3"}>
+                    <Form.Label htmlFor="data">Peak titre values</Form.Label>
                 </Form.Group>
             </fieldset>
         </Form>
