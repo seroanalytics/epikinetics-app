@@ -8,7 +8,7 @@ import {
 } from "@remix-run/react";
 
 import globalStyles from "./styles/global.css?url";
-import bootstrap from "bootstrap/dist/css/bootstrap.css?url";
+import bootstrap from "bootstrap/dist/css/bootstrap.min.css";
 import {Col, Container, Row} from "react-bootstrap";
 import React, {createContext, useMemo, useReducer} from "react";
 import usePersistedState from "./hooks/usePersistedState";

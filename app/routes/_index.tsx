@@ -9,11 +9,11 @@ import LineChart from "../components/LineChart";
 import {ContextValue, RootContext} from "../RootContext";
 import {useContext} from "react";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
 
 export const loader = async () => {
-    const jsonDirectory = __dirname + "/../../data";
+    const jsonDirectory = "./data";
     // Read the json data file data.json
     const fileContents = await fs.readFile(jsonDirectory + "/res.json", "utf8");
     // Parse the json data file contents into a json object

@@ -35,12 +35,6 @@ const colors = [{
     "alpha": "#44AA99",
     "delta": "#e2e2e2"
 }]
-// "#882255",
-// "#44AA99",
-// "#e2e2e2",
-// "#D95F02",
-// "#66A61E"
-
 
 export const useIsServerSide = () => {
     const [isServerSide, setIsServerSide] = useState(true);
@@ -69,7 +63,7 @@ export default function LineChart({data, history, titre_type}: Props) {
         (state.history == "Trace" || entry.infection_history == history) && (state.titre_type == "Trace" || entry.titre_type == titre_type)
     ).map(entry => ({
         ...entry,
-        range: [entry.hi, entry.lo]
+        CI: [entry.hi, entry.lo]
     }));
 
     const titre_types = [...new Set(allData.map(entry => entry.titre_type))]
@@ -107,7 +101,7 @@ export default function LineChart({data, history, titre_type}: Props) {
                         xAxisId={idx.join("x")}
                         key={idx.join("area")}
                         type="monotone"
-                        dataKey="range"
+                        dataKey="CI"
                         stroke="none"
                         fill={colors[histories.indexOf(idx[1])][idx[0].toLowerCase()]}
                         fillOpacity={0.3}
