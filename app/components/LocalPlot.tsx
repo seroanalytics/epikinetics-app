@@ -7,8 +7,7 @@ interface Dat {
     me: number
     lo: number
     hi: number
-    titre_type: string
-    infection_history: string
+    [index: string]: any
 }
 
 interface Props {

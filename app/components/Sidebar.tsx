@@ -8,9 +8,21 @@ export default function Sidebar() {
 
     const {state, dispatch} = useContext<AppContext>(RootContext)
 
-    function onSelect(e) {
+    function onSelectModel(e) {
         const newState = {...state}
-        newState[e.target.id] = e.target.value
+        newState.selectedModel = state.models.find(m => m.key == e.target.value)!!
+        dispatch(newState);
+    }
+
+    function onSelectData(e) {
+        const newState = {...state}
+        newState.selectedDataset = state.selectedModel.datasets.find(d => d.key == e.target.value)!!
+        dispatch(newState);
+    }
+
+    function onSelectCovariates(e) {
+        const newState = {...state}
+        newState.selectedRegressionModel = state.selectedModel.regressionModels.find(c => c.key == e.target.value)!!
         dispatch(newState);
     }
 
@@ -18,22 +30,22 @@ export default function Sidebar() {
         <Form method="post">
             <fieldset>
                 <Form.Group className="mb-3">
-                    <Form.Label htmlFor="data">Model</Form.Label>
-                    <Form.Select id="data">
+                    <Form.Label htmlFor="model">Model</Form.Label>
+                    <Form.Select id="model" onChange={onSelectModel}>
                         {state.models.map(m =>
                             <option key={m.key} value={m.key}>{m.displayName}</option>)}
                     </Form.Select>
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label htmlFor="data">Dataset</Form.Label>
-                    <Form.Select id="data">
+                    <Form.Select id="data" onChange={onSelectData}>
                         {state.selectedModel.datasets.map(d =>
                             <option key={d.key} value={d.key}>{d.displayName}</option>)}
                     </Form.Select>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Label htmlFor="data">Covariates</Form.Label>
-                    <Form.Select id="data">
+                    <Form.Label htmlFor="covariates">Covariates</Form.Label>
+                    <Form.Select id="covariates" onChange={onSelectCovariates}>
                         {state.selectedModel.regressionModels.map(c =>
                             <option key={c.key} value={c.key}>{c.displayName}</option>)}
                     </Form.Select>
