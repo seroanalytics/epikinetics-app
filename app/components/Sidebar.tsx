@@ -1,5 +1,5 @@
 import Form from 'react-bootstrap/Form';
-import {Col, Row} from "react-bootstrap";
+import {Col} from "react-bootstrap";
 import React, {useContext} from "react";
 import {AppContext, RootContext} from "../RootContext";
 import PlotForm from "./PlotForm";
@@ -10,19 +10,22 @@ export default function Sidebar() {
 
     function onSelectModel(e) {
         const newState = {...state}
-        newState.selectedModel = state.models.find(m => m.key == e.target.value)!!
+        newState.selectedModel = state.models
+            .find(m => m.key == e.target.value) ?? state.selectedModel
         dispatch(newState);
     }
 
     function onSelectData(e) {
         const newState = {...state}
-        newState.selectedDataset = state.selectedModel.datasets.find(d => d.key == e.target.value)!!
+        newState.selectedDataset = state.selectedModel.datasets
+            .find(d => d.key == e.target.value) ?? state.selectedDataset
         dispatch(newState);
     }
 
     function onSelectCovariates(e) {
         const newState = {...state}
-        newState.selectedRegressionModel = state.selectedModel.regressionModels.find(c => c.key == e.target.value)!!
+        newState.selectedRegressionModel = state.selectedModel.regressionModels
+            .find(c => c.key == e.target.value) ?? state.selectedRegressionModel
         dispatch(newState);
     }
 

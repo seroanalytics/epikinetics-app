@@ -3,11 +3,7 @@ import Plot from "./LocalPlot.client";
 import {Covariate, PlotConfig} from "~/RootContext";
 
 interface Dat {
-    t: number
-    me: number
-    lo: number
-    hi: number
-    [index: string]: any
+    [index: string]: string | number
 }
 
 interface Props {

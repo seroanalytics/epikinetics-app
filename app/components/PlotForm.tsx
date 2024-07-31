@@ -1,11 +1,11 @@
 import Form from "react-bootstrap/Form";
 import {Col, Row} from "react-bootstrap";
-import React, {ReactElement, useContext} from "react";
-import {AppContext, Covariate, RootContext, PlotConfig} from "~/RootContext";
+import React, {ChangeEventHandler, ReactElement, useContext} from "react";
+import {AppContext, Covariate, RootContext} from "~/RootContext";
 
 interface Props {
     covariate: Covariate;
-    onSelect: (e: any) => void
+    onSelect: ChangeEventHandler
     selected: string
 }
 
@@ -21,10 +21,6 @@ const CovariateOptions = ({ covariate, onSelect, selected}: Props): ReactElement
             </Form.Select>
         </Col>
     </Row>
-}
-
-interface PlotFormProps {
-    plot: PlotConfig
 }
 
 export default function PlotForm({plot}): ReactElement[] {

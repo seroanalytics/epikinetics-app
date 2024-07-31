@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import Plot from 'react-plotly.js';
 import {Covariate, PlotConfig} from "~/RootContext";
 
@@ -7,7 +7,7 @@ interface Dat {
     me: number
     lo: number
     hi: number
-    [index: string]: any
+    [index: string]: string | number
 }
 
 interface Props {
@@ -32,7 +32,7 @@ function permuteArrays(first, next, ...rest) {
 export default function LocalPlot({data, traceVariables, traces, value, plot}: Props) {
 
     let traceDatasets = [data];
-    let traceDefinitions = permuteArrays(...traceVariables.map(v => traces[v.key]))
+    const traceDefinitions = permuteArrays(...traceVariables.map(v => traces[v.key]))
 
     if (traceDefinitions.length > 0) {
         traceDatasets = traceDefinitions.map(td =>

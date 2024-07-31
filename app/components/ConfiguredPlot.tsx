@@ -3,6 +3,21 @@ import {AppContext, Covariate, PlotConfig, RootContext} from "~/RootContext";
 import {Col, Row} from "react-bootstrap";
 import LocalPlot from "~/components/LocalPlot";
 
+interface Dat {
+    [index: string]: string | number
+}
+
+interface Props {
+    data: Dat[],
+    facets: { [k: string]: string[] }
+    traces: { [k: string]: string[] }
+    covariate: Covariate
+    value: string,
+    facetVariables: Covariate[],
+    traceVariables: Covariate[],
+    plot: PlotConfig
+}
+
 function Facet({
                    data,
                    facets,
@@ -12,26 +27,18 @@ function Facet({
                    facetVariables,
                    traceVariables,
                    plot
-               }: {
-    data: any[],
-    facets: { [k: string]: string[] }
-    traces: { [k: string]: string[] }
-    covariate: Covariate
-    value: string,
-    facetVariables: Covariate[],
-    traceVariables: Covariate[],
-    plot: PlotConfig
-}) {
+               }: Props) {
     const filteredData = data.filter(d => d[covariate.key] == value);
     const otherFacetVariables = facetVariables.filter(v => v.key != covariate.key);
-    if (otherFacetVariables.length == 0) {
+    const nextFacetVariable = otherFacetVariables.pop();
+    if (!nextFacetVariable) {
         return <Col><LocalPlot data={filteredData}
                                traceVariables={traceVariables}
                                traces={traces}
                                plot={plot}
                                value={value}></LocalPlot></Col>
     } else {
-        const nextFacetVariable = otherFacetVariables.pop()!!;
+
         const facetValues = facets[nextFacetVariable.key];
         return facetValues.map(v => [<h5 className={"text-center"}
                                          key={Math.random().toString(36).substring(2, 7)}>{value}</h5>, <Facet
@@ -47,8 +54,11 @@ function Facet({
     }
 }
 
-
-export default function ConfiguredPlot({plot, data}) {
+interface ConfigurePlotProps {
+    plot: PlotConfig
+    data: Dat[]
+}
+export default function ConfiguredPlot({plot, data}: ConfigurePlotProps) {
     const {state} = useContext<AppContext>(RootContext);
     const variables = [state.selectedRegressionModel].concat(state.selectedModel.variables);
     const settings = state.selectedPlotOptions[plot.key];
