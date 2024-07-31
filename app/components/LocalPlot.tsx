@@ -1,5 +1,6 @@
 import {ClientOnly} from "remix-utils/client-only"
 import Plot from "./LocalPlot.client";
+import {Covariate, PlotConfig} from "~/RootContext";
 
 interface Dat {
     t: number
@@ -12,8 +13,10 @@ interface Dat {
 
 interface Props {
     data: Dat[],
-    history: string
-    titre_type: string
+    traceVariables: Covariate[]
+    value: string
+    traces:  { [k: string]: string[] }
+    plot: PlotConfig
 }
 
 export default function LocalPlot(props: Props) {
