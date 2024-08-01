@@ -1,7 +1,7 @@
 import {ClientOnly} from "remix-utils/client-only"
-import {Covariate, PlotConfig} from "~/RootContext";
 import LinePlot from "./LinePlot.client";
 import {createElement} from "react";
+import {Covariate, PlotConfig} from "~/types";
 
 interface Dat {
     [index: string]: string | number

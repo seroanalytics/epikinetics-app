@@ -1,8 +1,9 @@
 import Form from "react-bootstrap/Form";
 import {Col, Row} from "react-bootstrap";
 import React, {ChangeEventHandler, ReactElement, useContext} from "react";
-import {AppContext, Covariate, PlotConfig, RootContext} from "~/RootContext";
+import {AppContext, RootContext} from "~/RootContext";
 import useSelectedModel from "~/hooks/useSelectedModel";
+import {Covariate, PlotConfig} from "~/types";
 
 interface Props {
     covariate: Covariate;
