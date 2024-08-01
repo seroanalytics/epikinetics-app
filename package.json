@@ -9,7 +9,7 @@
     "dev": "remix dev",
     "lint": "eslint ./app/*/**",
     "typecheck": "tsc",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
