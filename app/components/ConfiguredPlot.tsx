@@ -18,6 +18,7 @@ interface Props {
     facetVariables: Covariate[],
     traceVariables: Covariate[],
     plot: PlotConfig
+    key: string
 }
 
 function Facet({

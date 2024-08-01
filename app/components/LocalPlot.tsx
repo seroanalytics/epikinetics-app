@@ -1,9 +1,16 @@
 import {ClientOnly} from "remix-utils/client-only"
-import Plot from "./LocalPlot.client";
 import {Covariate, PlotConfig} from "~/RootContext";
+import LinePlot from "./LinePlot.client";
+import {createElement} from "react";
 
 interface Dat {
     [index: string]: string | number
+}
+
+function PlotByType(type: string, props: Props) {
+    if (type == "line") {
+        return createElement(LinePlot, props)
+    }
 }
 
 interface Props {
@@ -17,6 +24,6 @@ interface Props {
 
 export default function LocalPlot(props: Props) {
     return <ClientOnly>
-        {() => (<Plot {...props} />)}
+        {() => PlotByType(props.plot.type, props)}
     </ClientOnly>
 }

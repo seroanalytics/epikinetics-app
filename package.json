@@ -26,6 +26,7 @@
     "@remix-run/react": "^2.10.0",
     "bootstrap": "^5.3.3",
     "cross-env": "^7.0.3",
+    "d3-scale-chromatic": "^3.1.0",
     "electron": "^31.1.0",
     "express": "^4.19.2",
     "isbot": "^4.4.0",

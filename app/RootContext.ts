@@ -9,9 +9,7 @@ export interface PlotOptions {
 export interface PlotConfig {
     key: string
     displayName: string
-    type: string,
-    lineColors?: any
-    fillColors?: any
+    type: string
 }
 
 export interface Model {
@@ -57,31 +55,14 @@ const biomarkerModel: Model = {
     plots: [{
         key: "pop_fits",
         displayName: "Population fits",
-        type: "line",
-        lineColors: [
-            `rgba(204, 102, 119, 1)`,
-            `rgba(221, 204, 119, 1)`,
-            `rgba(136, 204, 238, 1)`,
-            `rgba(136, 34, 85, 1)`,
-            `rgba(68, 170, 153, 1)`,
-            `rgba(226, 226, 226, 1)`]
-        ,
-        fillColors: [
-            `rgba(204, 102, 119, 0.3)`,
-            `rgba(221, 204, 119, 0.3)`,
-            `rgba(136, 204, 238, 0.3)`,
-            `rgba(136, 34, 85, 0.3)`,
-            `rgba(68, 170, 153, 0.3)`,
-            `rgba(226, 226, 226, 0.3)`
-
-        ]
+        type: "line"
     }],
     variables: [{key: "titre_type", displayName: "Titre type"}]
 }
 
 export const initialState: AppState = {
-        models:  [biomarkerModel],
-        selectedPlotOptions: {}
+    models: [biomarkerModel],
+    selectedPlotOptions: {}
 }
 
 export const RootContext = createContext<AppContext>({

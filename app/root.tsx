@@ -31,7 +31,7 @@ export function Layout({children}: { children: React.ReactNode }) {
         initialState as ReducerState<AppReducer>
     );
     const [status, selected] = useSelectedModel();
-    if (status == 200) {
+    if (status == 200 && selected) {
         const {selectedModel, selectedRegressionModel} = selected;
 
         const newState = {...appState}

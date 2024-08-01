@@ -1,12 +1,14 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
-import {Covariate, PlotConfig} from "~/RootContext";
+import {Covariate} from "~/RootContext";
+import {interpolateBlues, interpolateOranges, interpolatePurples, interpolateGreens} from "d3-scale-chromatic";
 
 interface Dat {
     t: number
     me: number
     lo: number
     hi: number
+
     [index: string]: string | number
 }
 
@@ -16,7 +18,6 @@ interface Props {
     traces: { [k: string]: string[] }
     value: string
     parent: string
-    plot: PlotConfig
 }
 
 function showLegend(traces: Covariate[]) {
@@ -30,10 +31,50 @@ function permuteArrays(first, next, ...rest) {
     return first.flatMap(a => next.map(b => [a, b].flat()));
 }
 
-export default function LocalPlot({data, traceVariables, traces, value, parent, plot}: Props) {
+const colorFunctions = [
+    interpolateBlues,
+    interpolateOranges,
+    interpolatePurples,
+    interpolateGreens
+]
+
+function addOpacity(color) {
+    return color.replace(')', ', 0.3)').replace('rgb', 'rgba');
+}
+
+function getColors(traces, traceVariables, index, traceDefinition, numTraces) {
+    if (traceVariables.length == 0) {
+        const color = interpolateOranges(0.5);
+        return [color, addOpacity(color)]
+    }
+    if (traceVariables.length == 1) {
+        const color = colorFunctions[index](0.5)
+        return [color, addOpacity(color)]
+    }
+    if (traceVariables.length == 2) {
+        const firstTraceVariable = traceDefinition[0];
+        const levels = traces[traceVariables[0].key];
+        const levelIndex = levels.indexOf(firstTraceVariable);
+
+        const secondTraceVariable = traceDefinition[1];
+        const secondLevels = traces[traceVariables[1].key];
+        const secondLevelIndex = secondLevels.indexOf(secondTraceVariable);
+
+        const color = colorFunctions[levelIndex]((secondLevelIndex + 1) / secondLevels.length);
+        return [color, addOpacity(color)]
+    }
+    if (traceVariables.length > 2) {
+        // at this point the graph becomes quite unreadable anyway, so just let all traces
+        // be variations on a color scale
+        const color = colorFunctions[0]((index + 1) / numTraces)
+        return [color, addOpacity(color)]
+    }
+}
+
+export default function LinePlot({data, traceVariables, traces, value, parent}: Props) {
 
     let traceDatasets = [data];
-    const traceDefinitions = permuteArrays(...traceVariables.map(v => traces[v.key]))
+    const traceDefinitions = permuteArrays(...traceVariables.map(v => traces[v.key]));
 
     if (traceDefinitions.length > 0) {
         traceDatasets = traceDefinitions.map(td =>
@@ -53,12 +94,13 @@ export default function LocalPlot({data, traceVariables, traces, value, parent, 
     const subsets = traceDatasets.map((dataset, i) => {
         const times = dataset.map(d => d.t);
         const seriesName = traceDefinitions.length > 0 ? traceDefinitions[i].join(" ") : "";
+        const color = getColors(traces, traceVariables, i, traceDefinitions[i], traceDatasets.length);
         return [{
             x: times,
             y: dataset.map(d => d.lo),
             name: seriesName,
             line: {color: "transparent"},
-            marker: {color: plot.lineColors[i]},
+            marker: {color: color[0]},
             showlegend: false,
             legendgroup: i,
             type: "scatter",
@@ -71,9 +113,9 @@ export default function LocalPlot({data, traceVariables, traces, value, parent, 
             type: 'scatter',
             mode: 'lines',
             fill: "tonexty",
-            fillcolor: plot.fillColors[i],
+            fillcolor: color[1],
             showlegend: showLegend(traceVariables),
-            marker: {color: plot.lineColors[i]},
+            marker: {color: color[0]},
         }, {
             x: times,
             y: dataset.map(d => d.hi),
@@ -84,7 +126,7 @@ export default function LocalPlot({data, traceVariables, traces, value, parent, 
             type: "scatter",
             mode: "lines",
             fill: "tonexty",
-            fillcolor: plot.fillColors[i],
+            fillcolor: color[1],
         }]
     }).flat();
 
