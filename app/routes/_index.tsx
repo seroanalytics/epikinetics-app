@@ -1,22 +1,16 @@
-import {json} from "@remix-run/node"; // or cloudflare/deno
-import {fs} from "../utils/fs-promises.server";
+import {useNavigate} from "@remix-run/react";
 import {AppContext, RootContext} from "../RootContext";
-import {useContext} from "react";
-import ConfiguredPlot from "~/components/ConfiguredPlot";
-import {useLoaderData} from "@remix-run/react";
-
-export const loader = async () => {
-    const jsonDirectory = "./data";
-    const fileContents = await fs.readFile([jsonDirectory, "legacy", "infection_history", "res.json"].join("/"), "utf8");
-    const data = JSON.parse(fileContents);
-
-    return json(
-        data,
-    );
-};
+import {useContext, useEffect} from "react";
 
 export default function Index() {
     const {state} = useContext<AppContext>(RootContext);
-    const data = useLoaderData<typeof loader>();
-    return state.selectedModel.plots.map(p => <ConfiguredPlot key={p.key} plot={p} data={data}></ConfiguredPlot>)
+    const navigate = useNavigate();
+    const selectedModel = state.models[0];
+    const selectedDataset = selectedModel.datasets[0];
+    const selectedCovariate = selectedModel.regressionModels[0];
+    useEffect(() => {
+        navigate(["/model", selectedModel.key, selectedDataset.key, selectedCovariate.key].join("/"))
+    }, []);
+
+    return <h1>Loading data</h1>
 }

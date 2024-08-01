@@ -35,9 +35,6 @@ export interface Covariate {
 
 export interface AppState {
     models: Model[]
-    selectedModel: Model
-    selectedDataset: Dataset
-    selectedRegressionModel: Covariate
     selectedPlotOptions: { [index: string]: PlotOptions }
 }
 
@@ -82,20 +79,16 @@ const biomarkerModel: Model = {
     variables: [{key: "titre_type", displayName: "Titre type"}]
 }
 
-export const initialState: AppState = {
-    models: [biomarkerModel],
-    selectedModel: biomarkerModel,
-    selectedDataset: biomarkerModel.datasets[0],
-    selectedRegressionModel: biomarkerModel.regressionModels[0],
-    selectedPlotOptions: Object.fromEntries(biomarkerModel.plots.map(p => [p.key,
-        Object.fromEntries(biomarkerModel.variables.concat([biomarkerModel.regressionModels[0]]).map(
-            v => [v.key, "trace"]
-        ))
-    ]))
+export function initialState(): AppState {
+    const models = [biomarkerModel];
+    return {
+        models: models,
+        selectedPlotOptions: {}
+    }
 }
 
 export const RootContext = createContext<AppContext>({
-    state: initialState,
+    state: initialState(),
     dispatch: () => null
 })
 

@@ -2,6 +2,7 @@ import {useContext} from "react";
 import {AppContext, Covariate, PlotConfig, RootContext} from "~/RootContext";
 import {Col, Row} from "react-bootstrap";
 import LocalPlot from "~/components/LocalPlot";
+import {useParams} from "@remix-run/react";
 
 interface Dat {
     [index: string]: string | number
@@ -60,7 +61,25 @@ interface ConfigurePlotProps {
 }
 export default function ConfiguredPlot({plot, data}: ConfigurePlotProps) {
     const {state} = useContext<AppContext>(RootContext);
-    const variables = [state.selectedRegressionModel].concat(state.selectedModel.variables);
+    const params = useParams();
+    const selectedModel = state.models.find(m => m.key == params.model)!!;
+
+    const selectedRegressionModel = selectedModel.regressionModels.find(c => c.key == params.covariate)!!;
+    const variables = [selectedRegressionModel].concat(selectedModel.variables);
+
+    function isEmpty(obj) {
+        for (const prop in obj) {
+            if (Object.hasOwn(obj, prop)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    if (!selectedModel || isEmpty(state.selectedPlotOptions)) {
+        return null;
+    }
     const settings = state.selectedPlotOptions[plot.key];
 
     const facetVariables = variables.filter(v => settings[v.key] == "facet");
