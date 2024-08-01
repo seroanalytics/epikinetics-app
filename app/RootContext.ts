@@ -52,7 +52,7 @@ const biomarkerModel: Model = {
     }],
     regressionModels: [
         {key: "infection_history", displayName: "Infection history"},
-        {key: "last_exp_type", displayName: "Last exposure type"}
+        {key: "last_vax_type", displayName: "Last vaccination type"}
     ],
     plots: [{
         key: "pop_fits",

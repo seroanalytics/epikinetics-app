@@ -1,5 +1,5 @@
 import {useParams} from "@remix-run/react";
-import {useContext, useState} from "react";
+import {useContext, useEffect} from "react";
 import {AppContext, RootContext} from "~/RootContext";
 
 export default function useSelectedModel() {
@@ -24,6 +24,17 @@ export default function useSelectedModel() {
     if (!selectedRegressionModel) {
         return [404, `Covariate with key ${params.covariate} not found`]
     }
+
+    useEffect(() => {
+        const newState = {...state}
+        newState.selectedPlotOptions = Object.fromEntries(selectedModel.plots.map(p => [p.key,
+            Object.fromEntries(selectedModel.variables.concat([selectedModel.regressionModels[0]]).map(
+                v => [v.key, "trace"]
+            ))
+        ]))
+        dispatch(newState);
+    }, []);
+
     return [200, {
         selectedModel,
         selectedDataset,

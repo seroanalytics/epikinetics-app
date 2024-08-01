@@ -58,7 +58,7 @@ export default function LocalPlot({data, traceVariables, traces, value, plot}: P
             name: seriesName,
             line: {color: "transparent"},
             marker: {color: plot.lineColors[i]},
-            showlegend: false,
+         //   showlegend: false,
             type: "scatter",
             mode: "lines"
         }, {
@@ -76,7 +76,7 @@ export default function LocalPlot({data, traceVariables, traces, value, plot}: P
             y: dataset.map(d => d.hi),
             name: seriesName,
             line: {width: 0},
-            showlegend: false,
+          //  showlegend: false,
             type: "scatter",
             mode: "lines",
             fill: "tonexty",
