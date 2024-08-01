@@ -1,15 +1,17 @@
 import Form from "react-bootstrap/Form";
 import {Col, Row} from "react-bootstrap";
 import React, {ChangeEventHandler, ReactElement, useContext} from "react";
-import {AppContext, Covariate, RootContext} from "~/RootContext";
+import {AppContext, Covariate, PlotConfig, RootContext} from "~/RootContext";
+import useSelectedModel from "~/hooks/useSelectedModel";
 
 interface Props {
     covariate: Covariate;
     onSelect: ChangeEventHandler
     selected: string
+    key: string
 }
 
-const CovariateOptions = ({ covariate, onSelect, selected}: Props): ReactElement => {
+const CovariateOptions = ({covariate, onSelect, selected}: Props): ReactElement => {
     return <Row className={"mt-2"}>
         <Form.Label column sm="6">
             {covariate.displayName}
@@ -23,9 +25,10 @@ const CovariateOptions = ({ covariate, onSelect, selected}: Props): ReactElement
     </Row>
 }
 
-export default function PlotForm({plot}): ReactElement[] {
+export default function PlotForm({plot}: { plot: PlotConfig }): ReactElement[] | null {
 
-    const {state, dispatch} = useContext<AppContext>(RootContext)
+    const {state, dispatch} = useContext<AppContext>(RootContext);
+    const [status, selected] = useSelectedModel();
 
     function onSelect(e) {
         const newState = {...state}
@@ -33,12 +36,18 @@ export default function PlotForm({plot}): ReactElement[] {
         dispatch(newState);
     }
 
+    if (status == 404 || !selected) {
+        return null
+    }
+
+    const {selectedModel, selectedRegressionModel} = selected;
+
     return [<Form.Label key={"label" + plot.key} htmlFor="data">{plot.displayName}</Form.Label>,
         <Form.Group className="mb-3" key={"group" + plot.key}>
             <Form.Text id="help" muted>
                 Choose how each variable is displayed
             </Form.Text>
-            {[state.selectedRegressionModel].concat(state.selectedModel.variables)
+            {[selectedRegressionModel].concat(selectedModel.variables)
                 .map(o => <CovariateOptions
                     key={o.key + plot.key}
                     covariate={o}

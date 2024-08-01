@@ -10,6 +10,7 @@ interface Props {
     data: Dat[],
     traceVariables: Covariate[]
     value: string
+    parent: string
     traces:  { [k: string]: string[] }
     plot: PlotConfig
 }

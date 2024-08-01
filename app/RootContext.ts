@@ -35,9 +35,6 @@ export interface Covariate {
 
 export interface AppState {
     models: Model[]
-    selectedModel: Model
-    selectedDataset: Dataset
-    selectedRegressionModel: Covariate
     selectedPlotOptions: { [index: string]: PlotOptions }
 }
 
@@ -55,7 +52,7 @@ const biomarkerModel: Model = {
     }],
     regressionModels: [
         {key: "infection_history", displayName: "Infection history"},
-        {key: "last_exp_type", displayName: "Last exposure type"}
+        {key: "last_vax_type", displayName: "Last vaccination type"}
     ],
     plots: [{
         key: "pop_fits",
@@ -83,15 +80,8 @@ const biomarkerModel: Model = {
 }
 
 export const initialState: AppState = {
-    models: [biomarkerModel],
-    selectedModel: biomarkerModel,
-    selectedDataset: biomarkerModel.datasets[0],
-    selectedRegressionModel: biomarkerModel.regressionModels[0],
-    selectedPlotOptions: Object.fromEntries(biomarkerModel.plots.map(p => [p.key,
-        Object.fromEntries(biomarkerModel.variables.concat([biomarkerModel.regressionModels[0]]).map(
-            v => [v.key, "trace"]
-        ))
-    ]))
+        models:  [biomarkerModel],
+        selectedPlotOptions: {}
 }
 
 export const RootContext = createContext<AppContext>({
@@ -99,6 +89,8 @@ export const RootContext = createContext<AppContext>({
     dispatch: () => null
 })
 
-export function rootReducer(oldState, newState): AppState {
+export function rootReducer(oldState: AppState, newState: AppState): AppState {
     return {...newState}
 }
+
+export type AppReducer = ReturnType<typeof rootReducer>;
