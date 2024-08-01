@@ -15,6 +15,7 @@ interface Props {
     traceVariables: Covariate[]
     traces: { [k: string]: string[] }
     value: string
+    parent: string
     plot: PlotConfig
 }
 
@@ -29,7 +30,7 @@ function permuteArrays(first, next, ...rest) {
     return first.flatMap(a => next.map(b => [a, b].flat()));
 }
 
-export default function LocalPlot({data, traceVariables, traces, value, plot}: Props) {
+export default function LocalPlot({data, traceVariables, traces, value, parent, plot}: Props) {
 
     let traceDatasets = [data];
     const traceDefinitions = permuteArrays(...traceVariables.map(v => traces[v.key]))
@@ -58,13 +59,15 @@ export default function LocalPlot({data, traceVariables, traces, value, plot}: P
             name: seriesName,
             line: {color: "transparent"},
             marker: {color: plot.lineColors[i]},
-         //   showlegend: false,
+            showlegend: false,
+            legendgroup: i,
             type: "scatter",
             mode: "lines"
         }, {
             y: dataset.map(d => d.me),
             x: times,
             name: seriesName,
+            legendgroup: i,
             type: 'scatter',
             mode: 'lines',
             fill: "tonexty",
@@ -76,7 +79,8 @@ export default function LocalPlot({data, traceVariables, traces, value, plot}: P
             y: dataset.map(d => d.hi),
             name: seriesName,
             line: {width: 0},
-          //  showlegend: false,
+            showlegend: false,
+            legendgroup: i,
             type: "scatter",
             mode: "lines",
             fill: "tonexty",
@@ -87,11 +91,11 @@ export default function LocalPlot({data, traceVariables, traces, value, plot}: P
     return <Plot
         data={subsets}
         layout={{
-            title: `${value}`,
+            title: [parent, value].filter(x => x).join(" - "),
             legend: {xanchor: 'center', x: 0.5, orientation: 'h'},
             yaxis: {type: "log", dtick: Math.log10(2)}
         }}
         useResizeHandler={true}
-        style={{width: "100%", height: "500"}}
+        style={{minWidth: "400px", width: "100%", height: "500"}}
     />
 }

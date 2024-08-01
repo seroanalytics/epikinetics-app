@@ -28,7 +28,6 @@ export const loader = async ({params}) => {
 };
 
 export default function Index() {
-    const {state, dispatch} = useContext<AppContext>(RootContext);
     const [status, selected] = useSelectedModel();
     const data = useLoaderData<Response>();
     if (status == 404) {

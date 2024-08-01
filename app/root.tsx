@@ -10,11 +10,12 @@ import {
 import globalStyles from "./styles/global.css?url";
 import bootstrap from "bootstrap/dist/css/bootstrap.min.css";
 import {Col, Container, Row} from "react-bootstrap";
-import React, {useMemo, useReducer} from "react";
+import React, {ReducerState, useMemo, useReducer} from "react";
 import usePersistedState from "./hooks/usePersistedState";
 import Sidebar from "./components/Sidebar";
 import TopNav from "./components/TopNav";
-import {initialState, rootReducer, RootContext} from "./RootContext";
+import {initialState, rootReducer, RootContext, AppState, AppReducer} from "./RootContext";
+import useSelectedModel from "~/hooks/useSelectedModel";
 
 export const links: LinksFunction = () => [
     {rel: "stylesheet", href: bootstrap},
@@ -27,10 +28,29 @@ export function Layout({children}: { children: React.ReactNode }) {
     const [theme, setTheme] = usePersistedState("theme", "dark");
     const [appState, dispatch] = useReducer(
         rootReducer,
-        initialState(),
-        () => initialState()
+        initialState as ReducerState<AppReducer>
     );
+    const [status, selected] = useSelectedModel();
+    if (status == 200) {
+        const {selectedModel, selectedRegressionModel} = selected;
 
+        const newState = {...appState}
+        let stateChange = false;
+        selectedModel.plots.map(p => {
+            if (!newState.selectedPlotOptions[p.key]) {
+                newState.selectedPlotOptions[p.key] = {}
+            }
+            selectedModel.variables.concat([selectedRegressionModel]).map(v => {
+                if (!newState.selectedPlotOptions[p.key][v.key]) {
+                    newState.selectedPlotOptions[p.key][v.key] = "trace"
+                    stateChange = true;
+                }
+            })
+        })
+        if (stateChange) {
+            dispatch(newState)
+        }
+    }
     const contextValue = useMemo(() => ({state: appState, dispatch}), [appState, dispatch])
 
     return (

@@ -79,19 +79,18 @@ const biomarkerModel: Model = {
     variables: [{key: "titre_type", displayName: "Titre type"}]
 }
 
-export function initialState(): AppState {
-    const models = [biomarkerModel];
-    return {
-        models: models,
+export const initialState: AppState = {
+        models:  [biomarkerModel],
         selectedPlotOptions: {}
-    }
 }
 
 export const RootContext = createContext<AppContext>({
-    state: initialState(),
+    state: initialState,
     dispatch: () => null
 })
 
-export function rootReducer(oldState, newState): AppState {
+export function rootReducer(oldState: AppState, newState: AppState): AppState {
     return {...newState}
 }
+
+export type AppReducer = ReturnType<typeof rootReducer>;

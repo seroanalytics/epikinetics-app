@@ -16,6 +16,7 @@ interface Props {
     traces: { [k: string]: string[] }
     covariate: Covariate
     value: string,
+    parent: string,
     facetVariables: Covariate[],
     traceVariables: Covariate[],
     plot: PlotConfig
@@ -27,6 +28,7 @@ function Facet({
                    traces,
                    covariate,
                    value,
+                   parent,
                    facetVariables,
                    traceVariables,
                    plot
@@ -39,12 +41,12 @@ function Facet({
                                traceVariables={traceVariables}
                                traces={traces}
                                plot={plot}
-                               value={value}></LocalPlot></Col>
+                               value={value}
+                               parent={parent}></LocalPlot></Col>
     } else {
 
         const facetValues = facets[nextFacetVariable.key];
-        return facetValues.map(v => [<h5 className={"text-center"}
-                                         key={Math.random().toString(36).substring(2, 7)}>{value}</h5>, <Facet
+        return facetValues.map(v => <Facet
             key={Math.random().toString(36).substring(2, 7)}
             plot={plot}
             data={filteredData}
@@ -52,8 +54,9 @@ function Facet({
             traces={traces}
             covariate={nextFacetVariable}
             value={v}
+            parent={value}
             facetVariables={otherFacetVariables}
-            traceVariables={traceVariables}></Facet>])
+            traceVariables={traceVariables}></Facet>)
     }
 }
 
@@ -61,6 +64,7 @@ interface ConfigurePlotProps {
     plot: PlotConfig
     data: Dat[]
 }
+
 export default function ConfiguredPlot({plot, data}: ConfigurePlotProps) {
     const {state} = useContext<AppContext>(RootContext);
     const params = useParams();
