@@ -4,13 +4,20 @@ import React, {useContext} from "react";
 import {AppContext, RootContext} from "../RootContext";
 import PlotForm from "./PlotForm";
 import {useNavigate, useParams} from "@remix-run/react";
+import useSelectedModel from "~/hooks/useSelectedModel";
 
 export default function Sidebar() {
 
     const {state, dispatch} = useContext<AppContext>(RootContext)
     const navigate = useNavigate();
     const params = useParams();
-    const selectedModel = state.models.find(m => m.key == params.model)!!;
+    const [status, selected] = useSelectedModel();
+
+    if (status == 404 || !selected) {
+        return null
+    }
+
+    const {selectedModel, selectedDataset, selectedRegressionModel} = selected;
 
     function onSelectModel(e) {
         const dataset = selectedModel.datasets[0]!!;
@@ -19,12 +26,10 @@ export default function Sidebar() {
     }
 
     function onSelectData(e) {
-        const selectedCovariate = selectedModel.regressionModels.find(r => r.key == params.covariate)!!;
-        navigate(["/model", selectedModel.key, e.target.value, selectedCovariate].join("/"));
+        navigate(["/model", selectedModel.key, e.target.value, selectedRegressionModel].join("/"));
     }
 
     function onSelectCovariates(e) {
-        const selectedDataset = selectedModel.datasets.find(d => d.key == params.dataset)!!;
         navigate(["/model", selectedModel.key, selectedDataset.key, e.target.value].join("/"))
     }
 

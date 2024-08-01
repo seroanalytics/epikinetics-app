@@ -3,6 +3,8 @@ import {Col, Row} from "react-bootstrap";
 import React, {ChangeEventHandler, ReactElement, useContext} from "react";
 import {AppContext, Covariate, RootContext} from "~/RootContext";
 import {useParams} from "@remix-run/react";
+import {isEmpty} from "~/utils/utils";
+import useSelectedModel from "~/hooks/useSelectedModel";
 
 interface Props {
     covariate: Covariate;
@@ -24,13 +26,10 @@ const CovariateOptions = ({covariate, onSelect, selected}: Props): ReactElement 
     </Row>
 }
 
-export default function PlotForm({plot}): ReactElement[] {
+export default function PlotForm({plot}): ReactElement[] | null {
 
     const {state, dispatch} = useContext<AppContext>(RootContext);
-    const params = useParams();
-    const selectedModel = state.models.find(m => m.key == params.model)!!;
-    const selectedDataset = selectedModel.datasets.find(d => d.key == params.dataset)!!;
-    const selectedRegressionModel = selectedModel.regressionModels.find(c => c.key == params.covariate)!!;
+    const [status, selected] = useSelectedModel();
 
     function onSelect(e) {
         const newState = {...state}
@@ -38,19 +37,15 @@ export default function PlotForm({plot}): ReactElement[] {
         dispatch(newState);
     }
 
-    function isEmpty(obj) {
-        for (const prop in obj) {
-            if (Object.hasOwn(obj, prop)) {
-                return false;
-            }
-        }
-
-        return true;
+    if (status == 404) {
+        return [<h1>404</h1>]
     }
 
-    if (!selectedModel || isEmpty(state.selectedPlotOptions)) {
-        return null;
+    if (!selected || isEmpty(state.selectedPlotOptions)) {
+        return null
     }
+
+    const {selectedModel, selectedRegressionModel} = selected;
 
     return [<Form.Label key={"label" + plot.key} htmlFor="data">{plot.displayName}</Form.Label>,
         <Form.Group className="mb-3" key={"group" + plot.key}>
