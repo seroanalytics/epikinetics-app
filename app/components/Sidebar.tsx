@@ -8,7 +8,7 @@ import useSelectedModel from "~/hooks/useSelectedModel";
 
 export default function Sidebar() {
 
-    const {state, dispatch} = useContext<AppContext>(RootContext)
+    const {state} = useContext<AppContext>(RootContext)
     const navigate = useNavigate();
     const params = useParams();
     const [status, selected] = useSelectedModel();
@@ -20,8 +20,8 @@ export default function Sidebar() {
     const {selectedModel, selectedDataset, selectedRegressionModel} = selected;
 
     function onSelectModel(e) {
-        const dataset = selectedModel.datasets[0]!!;
-        const covariate = selectedModel?.regressionModels[0]!!;
+        const dataset = selectedModel.datasets[0];
+        const covariate = selectedModel.regressionModels[0];
         navigate(["/model", e.target.value, dataset.key, covariate.key].join("/"));
     }
 

@@ -1,14 +1,12 @@
-import {json} from "@remix-run/node"; // or cloudflare/deno
+import {json} from "@remix-run/node";
 import {fs} from "../utils/fs-promises.server";
-import {useContext, useEffect} from "react";
-import {AppContext, RootContext} from "~/RootContext";
 import ConfiguredPlot from "~/components/ConfiguredPlot";
-import {useLoaderData, useParams} from "@remix-run/react";
+import {useLoaderData} from "@remix-run/react";
 import useSelectedModel from "~/hooks/useSelectedModel";
 
 interface Response {
     status: "ERROR" | "SUCCESS"
-    data?: any
+    data?: { [key: string]: number | string }[]
     message?: string
 }
 
@@ -47,5 +45,6 @@ export default function Index() {
     }
     const {selectedModel} = selected;
 
-    return data.data && selectedModel.plots.map(p => <ConfiguredPlot key={p.key} plot={p} data={data.data}></ConfiguredPlot>)
+    return data.data && selectedModel.plots.map(p => <ConfiguredPlot key={p.key} plot={p}
+                                                                     data={data.data}></ConfiguredPlot>)
 }

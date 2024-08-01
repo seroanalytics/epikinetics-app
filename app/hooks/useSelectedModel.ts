@@ -1,10 +1,10 @@
 import {useParams} from "@remix-run/react";
-import {useContext, useEffect} from "react";
+import {useContext} from "react";
 import {AppContext, RootContext} from "~/RootContext";
 
 export default function useSelectedModel() {
     const params = useParams();
-    const {state, dispatch} = useContext<AppContext>(RootContext);
+    const {state,} = useContext<AppContext>(RootContext);
 
     if (!params.model) {
         return [200, null]

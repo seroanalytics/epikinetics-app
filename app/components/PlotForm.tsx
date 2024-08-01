@@ -1,8 +1,7 @@
 import Form from "react-bootstrap/Form";
 import {Col, Row} from "react-bootstrap";
 import React, {ChangeEventHandler, ReactElement, useContext} from "react";
-import {AppContext, Covariate, RootContext} from "~/RootContext";
-import {useParams} from "@remix-run/react";
+import {AppContext, Covariate, PlotConfig, RootContext} from "~/RootContext";
 import {isEmpty} from "~/utils/utils";
 import useSelectedModel from "~/hooks/useSelectedModel";
 
@@ -10,6 +9,7 @@ interface Props {
     covariate: Covariate;
     onSelect: ChangeEventHandler
     selected: string
+    key: string
 }
 
 const CovariateOptions = ({covariate, onSelect, selected}: Props): ReactElement => {
@@ -26,7 +26,7 @@ const CovariateOptions = ({covariate, onSelect, selected}: Props): ReactElement 
     </Row>
 }
 
-export default function PlotForm({plot}): ReactElement[] | null {
+export default function PlotForm({plot}: { plot: PlotConfig }): ReactElement[] | null {
 
     const {state, dispatch} = useContext<AppContext>(RootContext);
     const [status, selected] = useSelectedModel();
@@ -37,11 +37,7 @@ export default function PlotForm({plot}): ReactElement[] | null {
         dispatch(newState);
     }
 
-    if (status == 404) {
-        return [<h1>404</h1>]
-    }
-
-    if (!selected || isEmpty(state.selectedPlotOptions)) {
+    if (status == 404 || !selected || isEmpty(state.selectedPlotOptions)) {
         return null
     }
 

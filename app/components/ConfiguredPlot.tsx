@@ -2,7 +2,6 @@ import React, {useContext} from "react";
 import {AppContext, Covariate, PlotConfig, RootContext} from "~/RootContext";
 import {Col, Row} from "react-bootstrap";
 import LocalPlot from "~/components/LocalPlot";
-import {useParams} from "@remix-run/react";
 import {isEmpty} from "~/utils/utils";
 import useSelectedModel from "~/hooks/useSelectedModel";
 
@@ -67,10 +66,9 @@ interface ConfigurePlotProps {
 
 export default function ConfiguredPlot({plot, data}: ConfigurePlotProps) {
     const {state} = useContext<AppContext>(RootContext);
-    const params = useParams();
     const [status, selected] = useSelectedModel();
     if (status == 404) {
-        return [<h1>404</h1>]
+        return <h1>404</h1>
     }
 
     if (!selected || isEmpty(state.selectedPlotOptions)) {
@@ -100,13 +98,16 @@ export default function ConfiguredPlot({plot, data}: ConfigurePlotProps) {
                                          traces={traces}
                                          covariate={firstFacet}
                                          value={v}
+                                         parent={""}
                                          facetVariables={facetVariables}
                                          traceVariables={traceVariables}></Facet>)}
         </Row>
     } else {
         return <Row><Col><LocalPlot data={data}
                                     traceVariables={traceVariables}
-                                    traces={traces} value={""}
+                                    traces={traces}
+                                    value={""}
+                                    parent={""}
                                     plot={plot}></LocalPlot></Col></Row>
     }
 }
