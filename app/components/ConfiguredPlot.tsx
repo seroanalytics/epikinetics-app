@@ -2,7 +2,6 @@ import React, {useContext} from "react";
 import {AppContext, Covariate, PlotConfig, RootContext} from "~/RootContext";
 import {Col, Row} from "react-bootstrap";
 import LocalPlot from "~/components/LocalPlot";
-import {isEmpty} from "~/utils/utils";
 import useSelectedModel from "~/hooks/useSelectedModel";
 
 interface Dat {
@@ -71,7 +70,7 @@ export default function ConfiguredPlot({plot, data}: ConfigurePlotProps) {
         return <h1>404</h1>
     }
 
-    if (!selected || isEmpty(state.selectedPlotOptions)) {
+    if (!selected) {
         return null;
     }
 

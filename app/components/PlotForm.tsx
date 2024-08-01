@@ -2,7 +2,6 @@ import Form from "react-bootstrap/Form";
 import {Col, Row} from "react-bootstrap";
 import React, {ChangeEventHandler, ReactElement, useContext} from "react";
 import {AppContext, Covariate, PlotConfig, RootContext} from "~/RootContext";
-import {isEmpty} from "~/utils/utils";
 import useSelectedModel from "~/hooks/useSelectedModel";
 
 interface Props {
@@ -37,7 +36,7 @@ export default function PlotForm({plot}: { plot: PlotConfig }): ReactElement[] |
         dispatch(newState);
     }
 
-    if (status == 404 || !selected || isEmpty(state.selectedPlotOptions)) {
+    if (status == 404 || !selected) {
         return null
     }
 
