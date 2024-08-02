@@ -1,4 +1,4 @@
-name: 🔨 Build
+name: 🚢 Docker
 
 on:
   push:
@@ -11,18 +11,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    name: 🔨 Build
+  docker:
+    name: 🔨 Docker build
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
 
-      - name: ⎔ Setup node
-        uses: actions/setup-node@v4
-
-      - name: 📥 Install deps
-        run: npm install --frozen-lockfile
-
-      - name: 🔨 Build
-        run: npm run build
+      - name: ⎔ Docker build
+        run: ./scripts/build
