@@ -1,8 +1,9 @@
 import React, {useContext} from "react";
-import {AppContext, Covariate, PlotConfig, RootContext} from "~/RootContext";
+import {AppContext, RootContext} from "~/RootContext";
 import {Col, Row} from "react-bootstrap";
 import LocalPlot from "~/components/LocalPlot";
 import useSelectedModel from "~/hooks/useSelectedModel";
+import {Covariate, PlotConfig} from "~/types";
 
 interface Dat {
     [index: string]: string | number
@@ -18,6 +19,7 @@ interface Props {
     facetVariables: Covariate[],
     traceVariables: Covariate[],
     plot: PlotConfig
+    key: string
 }
 
 function Facet({

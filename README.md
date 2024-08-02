@@ -1,6 +1,7 @@
 # epikinetics-app [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![⬣ Lint](https://github.com/seroanalytics/epikinetics-app/actions/workflows/lint.yml/badge.svg)](https://github.com/seroanalytics/epikinetics-app/actions/workflows/lint.yml)
 [![🔨 Build](https://github.com/seroanalytics/epikinetics-app/actions/workflows/build.yml/badge.svg)](https://github.com/seroanalytics/epikinetics-app/actions/workflows/build.yml)
+[![codecov](https://codecov.io/gh/seroanalytics/epikinetics-app/graph/badge.svg?token=FH6QSJGNVR)](https://codecov.io/gh/seroanalytics/epikinetics-app)
 
 Browser application for exploring [epikinetics](https://seroanalytics.github.io/epikinetics/) model results. 
 Based on the `remix` Javascript/Typescript framework.

@@ -17,7 +17,6 @@
     "resolveJsonModule": true,
     "target": "ES2022",
     "strict": true,
-    "esm": true,
     "allowJs": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
@@ -26,7 +25,7 @@
       "~/*": ["./app/*", "./desktop/*"]
     },
 
-    // Vite takes care of building everything, not tsc.
+    // Remix takes care of building everything, not tsc.
     "noEmit": true
   }
 }

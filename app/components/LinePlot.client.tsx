@@ -1,39 +1,33 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
-import {Covariate, PlotConfig} from "~/RootContext";
+import {Covariate, Dict} from "~/types";
+import {getColors, permuteArrays} from "~/utils/plotUtils";
 
 interface Dat {
     t: number
     me: number
     lo: number
     hi: number
+
     [index: string]: string | number
 }
 
 interface Props {
     data: Dat[],
     traceVariables: Covariate[]
-    traces: { [k: string]: string[] }
+    traces: Dict<string[]>
     value: string
     parent: string
-    plot: PlotConfig
 }
 
 function showLegend(traces: Covariate[]) {
     return traces.length > 0
 }
 
-function permuteArrays(first, next, ...rest) {
-    if (!first) return [];
-    if (!next) next = [""];
-    if (rest.length) next = permuteArrays(next, ...rest);
-    return first.flatMap(a => next.map(b => [a, b].flat()));
-}
-
-export default function LocalPlot({data, traceVariables, traces, value, parent, plot}: Props) {
+export default function LinePlot({data, traceVariables, traces, value, parent}: Props) {
 
     let traceDatasets = [data];
-    const traceDefinitions = permuteArrays(...traceVariables.map(v => traces[v.key]))
+    const traceDefinitions = permuteArrays(...traceVariables.map(v => traces[v.key]));
 
     if (traceDefinitions.length > 0) {
         traceDatasets = traceDefinitions.map(td =>
@@ -53,12 +47,13 @@ export default function LocalPlot({data, traceVariables, traces, value, parent, 
     const subsets = traceDatasets.map((dataset, i) => {
         const times = dataset.map(d => d.t);
         const seriesName = traceDefinitions.length > 0 ? traceDefinitions[i].join(" ") : "";
+        const color = getColors(traces, traceVariables, i, traceDefinitions[i], traceDatasets.length);
         return [{
             x: times,
             y: dataset.map(d => d.lo),
             name: seriesName,
             line: {color: "transparent"},
-            marker: {color: plot.lineColors[i]},
+            marker: {color: color.line},
             showlegend: false,
             legendgroup: i,
             type: "scatter",
@@ -71,9 +66,9 @@ export default function LocalPlot({data, traceVariables, traces, value, parent, 
             type: 'scatter',
             mode: 'lines',
             fill: "tonexty",
-            fillcolor: plot.fillColors[i],
+            fillcolor: color.fill,
             showlegend: showLegend(traceVariables),
-            marker: {color: plot.lineColors[i]},
+            marker: {color: color.line},
         }, {
             x: times,
             y: dataset.map(d => d.hi),
@@ -84,7 +79,7 @@ export default function LocalPlot({data, traceVariables, traces, value, parent, 
             type: "scatter",
             mode: "lines",
             fill: "tonexty",
-            fillcolor: plot.fillColors[i],
+            fillcolor: color.fill,
         }]
     }).flat();
 
