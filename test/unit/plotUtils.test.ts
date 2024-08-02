@@ -75,12 +75,12 @@ describe("getColors", () => {
 
         const seventhColor = getColors(traces, traceVariables, 6, ["Seventh"], 7)
 
-        expect(firstColor.line).toBe(interpolateBlues(0.2))
-        expect(secondColor.line).toBe(interpolateOranges(0.2))
-        expect(thirdColor.line).toBe(interpolatePurples(0.2))
+        expect(firstColor.line).toBe(interpolateBlues(1))
+        expect(secondColor.line).toBe(interpolateOranges(1))
+        expect(thirdColor.line).toBe(interpolatePurples(1))
 
-        // there are 6 color functions and they get cycled, so here should be back to blue
-        expect(seventhColor.line).toBe(interpolateBlues(0.4))
+        // there are 6 color functions and they get cycled, so here should be back to blue but at a lighter shade
+        expect(seventhColor.line).toBe(interpolateBlues(0.8))
     });
 
     test("For two variables, traces for the same variable value share a color scheme", () => {

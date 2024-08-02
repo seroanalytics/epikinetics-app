@@ -11,7 +11,7 @@ const biomarkerModel: Model = {
     key: "biomarker",
     datasets: [{
         key: "legacy",
-        displayName: "SARS-CoV2-legacy"
+        displayName: "SARS-CoV-2 Legacy Study, Delta Wave"
     }],
     regressionModels: [
         {key: "infection_history", displayName: "Infection history"},

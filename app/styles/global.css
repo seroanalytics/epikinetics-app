@@ -3,3 +3,7 @@
   --white: #ffffff;
   color: var(--primary-color);
 }
+
+[data-bs-theme="dark"] .plot-container {
+    filter: invert(75%) hue-rotate(180deg);
+}
