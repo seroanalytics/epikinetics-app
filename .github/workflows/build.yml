@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  lint:
+  build:
     name: 🔨 Build
     runs-on: ubuntu-latest
     steps:

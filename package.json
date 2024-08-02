@@ -4,12 +4,15 @@
   "description": "epikinetics UI",
   "main": "desktop/index.js",
   "scripts": {
-    "build": "remix build",
+    "build": "run-s build:*",
+    "build:remix": "remix build",
+    "build:server": "esbuild --platform=node --format=cjs ./server.ts --outdir=build --bundle --external:fsevents",
     "electron": "electron desktop/index.js",
     "dev": "remix dev",
     "lint": "eslint ./app/*/**",
     "typecheck": "tsc",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "start": "cross-env NODE_ENV=production node ./build/server.js"
   },
   "repository": {
     "type": "git",
@@ -22,16 +25,20 @@
   },
   "homepage": "https://github.com/seroanalytics/epikinetics-app#readme",
   "dependencies": {
+    "@isaacs/express-prometheus-middleware": "^1.2.1",
     "@remix-run/express": "^2.10.0",
     "@remix-run/node": "^2.10.0",
     "@remix-run/react": "^2.10.0",
     "bootstrap": "^5.3.3",
+    "chokidar": "^3.6.0",
+    "compression": "^1.7.4",
     "cross-env": "^7.0.3",
     "d3-scale-chromatic": "^3.1.0",
     "electron": "^31.1.0",
     "express": "^4.19.2",
     "isbot": "^4.4.0",
     "lucide-react": "^0.397.0",
+    "morgan": "^1.10.0",
     "plotly.js": "^2.34.0",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.3",
@@ -40,7 +47,8 @@
     "react-plotly.js": "^2.6.0",
     "recharts": "^2.13.0-alpha.4",
     "remix-electron": "^2.0.2",
-    "remix-utils": "^7.6.0"
+    "remix-utils": "^7.6.0",
+    "source-map-support": "^0.5.21"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.24.7",
@@ -53,6 +61,7 @@
     "eslint-plugin-react": "^7.34.3",
     "globals": "^15.6.0",
     "jest": "^29.7.0",
+    "npm-run-all": "^4.1.5",
     "ts-jest": "^29.2.4",
     "tsx": "^4.16.0",
     "typescript": "^5.5.2",

@@ -1,0 +1,7 @@
+check=$(curl -s -vv -I http://localhost:3000 2>/dev/null | grep "HTTP/2 200")
+#echo $check
+if [[ -z $check ]] ; then
+      echo "Cnxn failed"
+    else
+      echo "Cnxn successful"
+fi

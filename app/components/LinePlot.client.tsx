@@ -88,7 +88,8 @@ export default function LinePlot({data, traceVariables, traces, value, parent}: 
         layout={{
             title: [parent, value].filter(x => x).join(" - "),
             legend: {xanchor: 'center', x: 0.5, orientation: 'h'},
-            yaxis: {type: "log", dtick: Math.log10(2)}
+            yaxis: {type: "log", dtick: Math.log10(2)},
+            paper_bgcolor: "rgba(255,255,255, 0)"
         }}
         useResizeHandler={true}
         style={{minWidth: "400px", width: "100%", height: "500"}}

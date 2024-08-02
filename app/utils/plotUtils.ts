@@ -38,7 +38,7 @@ export function getColors(traces: Dict<string[]>,
     }
     if (traceVariables.length == 1) {
         const colorIndex = index % colorFunctions.length;
-        const color = colorFunctions[colorIndex](0.2 * (Math.floor(index / colorFunctions.length) + 1));
+        const color = colorFunctions[colorIndex](1 - 0.2 * (Math.floor(index / colorFunctions.length)));
         return {line: color, fill: addOpacity(color)}
     }
     if (traceVariables.length == 2) {
