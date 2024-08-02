@@ -12,11 +12,14 @@ concurrency:
 
 jobs:
   docker:
-    name: 🔨 Docker build
+    name: 🚢 Docker build
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
 
-      - name: ⎔ Docker build
+      - name: 🔨 Docker build
         run: ./scripts/build
+
+      - name: 🔥 Smoke test
+        run: ./scripts/smoke-test

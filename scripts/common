@@ -2,12 +2,16 @@ NAME=epikinetics-app
 ORG=seroanalytics
 PACKAGE_ROOT="${HERE}/.."
 
-if [ -z "$GITHUB_REF" ]; then
-    GIT_BRANCH=$(git -C "$PACKAGE_ROOT" symbolic-ref --short HEAD)
-    GIT_ID=$(git -C "$PACKAGE_ROOT" rev-parse --short=7 HEAD)
+if [[ -v "GITHUB_SHA" ]]; then
+    GIT_ID=${GITHUB_SHA:0:7}
 else
-    GIT_BRANCH=$GITHUB_REF
-    GIT_ID=$(echo $GITHUB_SHA | cut -c1-7)
+    GIT_ID=$(git rev-parse --short=7 HEAD)
+fi
+
+if [[ -v "BRANCH_NAME" ]]; then
+    GIT_BRANCH=${BRANCH_NAME}
+else
+    GIT_BRANCH=$(git symbolic-ref --short HEAD)
 fi
 
 DOCKER_COMMIT_TAG=$ORG/$NAME:$GIT_ID
