@@ -53,7 +53,7 @@ export default function LinePlot({data, traceVariables, traces, value, parent}: 
             y: dataset.map(d => d.lo),
             name: seriesName,
             line: {color: "transparent"},
-            marker: {color: color[0]},
+            marker: {color: color.line},
             showlegend: false,
             legendgroup: i,
             type: "scatter",
@@ -66,9 +66,9 @@ export default function LinePlot({data, traceVariables, traces, value, parent}: 
             type: 'scatter',
             mode: 'lines',
             fill: "tonexty",
-            fillcolor: color[1],
+            fillcolor: color.fill,
             showlegend: showLegend(traceVariables),
-            marker: {color: color[0]},
+            marker: {color: color.line},
         }, {
             x: times,
             y: dataset.map(d => d.hi),
@@ -79,7 +79,7 @@ export default function LinePlot({data, traceVariables, traces, value, parent}: 
             type: "scatter",
             mode: "lines",
             fill: "tonexty",
-            fillcolor: color[1],
+            fillcolor: color.fill,
         }]
     }).flat();
 

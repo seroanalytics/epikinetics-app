@@ -1,4 +1,4 @@
-import {interpolateBlues, interpolateOranges, interpolatePurples, interpolateGreens} from "d3-scale-chromatic";
+import {interpolateBlues, interpolateOranges, interpolatePurples, interpolateGreens, interpolateReds, interpolateGreys} from "d3-scale-chromatic";
 import {Covariate, Dict} from "~/types";
 
 // @ts-expect-error this function doesn't lend itself well to typing
@@ -13,25 +13,33 @@ const colorFunctions = [
     interpolateBlues,
     interpolateOranges,
     interpolatePurples,
-    interpolateGreens
+    interpolateGreens,
+    interpolateReds,
+    interpolateGreys
 ]
 
-function addOpacity(color: string) {
+export function addOpacity(color: string) {
     return color.replace(')', ', 0.3)').replace('rgb', 'rgba');
+}
+
+export interface ColorOptions {
+    line: string
+    fill: string
 }
 
 export function getColors(traces: Dict<string[]>,
                           traceVariables: Covariate[],
                           index: number,
                           traceDefinition: string[],
-                          numTraces: number) {
+                          numTraces: number): ColorOptions {
     if (traceVariables.length == 0) {
-        const color = interpolateOranges(0.5);
-        return [color, addOpacity(color)]
+        const color = colorFunctions[0](0.5);
+        return {line: color, fill: addOpacity(color)}
     }
     if (traceVariables.length == 1) {
-        const color = colorFunctions[index](0.5)
-        return [color, addOpacity(color)]
+        const colorIndex = index % colorFunctions.length;
+        const color = colorFunctions[colorIndex](0.2 * (Math.floor(index / colorFunctions.length) + 1));
+        return {line: color, fill: addOpacity(color)}
     }
     if (traceVariables.length == 2) {
         const firstTraceVariable = traceDefinition[0];
@@ -43,12 +51,12 @@ export function getColors(traces: Dict<string[]>,
         const secondLevelIndex = secondLevels.indexOf(secondTraceVariable);
 
         const color = colorFunctions[levelIndex]((secondLevelIndex + 1) / secondLevels.length);
-        return [color, addOpacity(color)]
+        return {line: color, fill: addOpacity(color)}
     }
     if (traceVariables.length > 2) {
         // at this point the graph becomes quite unreadable anyway, so just let all traces
         // be variations on a color scale
         const color = colorFunctions[0]((index + 1) / numTraces)
-        return [color, addOpacity(color)]
+        return {line: color, fill: addOpacity(color)}
     }
 }
