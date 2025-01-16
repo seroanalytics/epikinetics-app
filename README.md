@@ -1,4 +1,6 @@
-# epikinetics-app [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+**This was an exploratory project that we will not be taking forward as would be of limited use. This repo has been archived**
+# epikinetics-app [![Project Status: Concept – Minimal or no implementation has been done yet, or the repository is only intended to be a limited example, demo, or proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)
+
 [![⬣ Lint](https://github.com/seroanalytics/epikinetics-app/actions/workflows/lint.yml/badge.svg)](https://github.com/seroanalytics/epikinetics-app/actions/workflows/lint.yml)
 [![🔨 Build](https://github.com/seroanalytics/epikinetics-app/actions/workflows/build.yml/badge.svg)](https://github.com/seroanalytics/epikinetics-app/actions/workflows/build.yml)
 [![codecov](https://codecov.io/gh/seroanalytics/epikinetics-app/graph/badge.svg?token=FH6QSJGNVR)](https://codecov.io/gh/seroanalytics/epikinetics-app)
